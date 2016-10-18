@@ -15,3 +15,9 @@ CelestialBody::CelestialBody(double x, double y, double z, double vx, double vy,
 void CelestialBody::resetForce() {
     force.zeros();
 }
+
+void CelestialBody::resetEnergy(){
+    potential_energy=0.0;
+    kinetic_energy=0.0;
+    total_energy=0.0;
+}

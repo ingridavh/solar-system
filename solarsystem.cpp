@@ -1,11 +1,14 @@
 #include "solarsystem.h"
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 SolarSystem::SolarSystem() :
     m_kineticEnergy(0),
-    m_potentialEnergy(0)
+    m_potentialEnergy(0),
+    m_G(4*M_PI*M_PI)
 {
+
 }
 
 CelestialBody& SolarSystem::createCelestialBody(vec3 position, vec3 velocity, double mass) {
@@ -30,10 +33,24 @@ void SolarSystem::calculateForcesAndEnergy()
             CelestialBody &body2 = m_bodies[j];
             vec3 deltaRVector = body1.position - body2.position;
             double dr = deltaRVector.length();
-            // Calculate the force and potential energy here
+            //Calculate potential energy
+            m_potentialEnergy -= m_G*body1.mass*body2.mass/dr;
+
+            //Calculate the force on both bodies
+            body1.force -= (m_G*body1.mass*body2.mass)/(dr*dr*dr)*deltaRVector;
+            body2.force += (m_G*body1.mass*body2.mass)/(dr*dr*dr)*deltaRVector;
+
+            //Calculate potential energy for each body
+            body1.potential_energy -= m_G*body1.mass*body2.mass/dr;
+            body2.potential_energy -= m_G*body1.mass*body2.mass/dr;
+
+
         }
 
-        m_kineticEnergy += 0.5*body1.mass*body1.velocity.lengthSquared();
+        body1.kinetic_energy = 0.5*body1.mass*body1.velocity.lengthSquared();
+        m_kineticEnergy += body1.kinetic_energy;
+        m_angularMomentum += body1.mass*body1.position.cross(body1.velocity);
+
     }
 }
 
@@ -67,8 +84,8 @@ void SolarSystem::writeToFile(string filename)
         }
     }
 
-    m_file << numberOfBodies() << endl;
-    m_file << "Comment line that needs to be here. Balle." << endl;
+    m_file << "Count of bodies " << numberOfBodies() << endl;
+    m_file << "Comment line that needs to be here. Blomst." << endl;
     for(CelestialBody &body : m_bodies) {
         m_file << "1 " << body.position.x() << " " << body.position.y() << " " << body.position.z() << "\n";
     }
@@ -83,3 +100,32 @@ std::vector<CelestialBody> &SolarSystem::bodies()
 {
     return m_bodies;
 }
+
+double SolarSystem::G() const
+{
+    return m_G;
+}
+
+void SolarSystem::setG(double G)
+{
+    m_G = G;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

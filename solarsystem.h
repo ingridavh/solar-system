@@ -6,6 +6,8 @@
 #include <string>
 #include <fstream>
 
+
+//Define the class Solar System in header file
 class SolarSystem
 {
 public:
@@ -21,12 +23,17 @@ public:
     vec3 angularMomentum() const;
     std::vector<CelestialBody> &bodies();
 
+
+    double G() const;
+    void setG(double G);
+
 private:
     std::vector<CelestialBody> m_bodies;
     vec3 m_angularMomentum;
     std::ofstream m_file;
     double m_kineticEnergy;
     double m_potentialEnergy;
+    double m_G;
 };
 
 #endif // SOLARSYSTEM_H
