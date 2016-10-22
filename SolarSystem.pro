@@ -16,3 +16,7 @@ HEADERS += \
     solver.h \
     catch.hpp
 
+DISTFILES += \
+    ../project3_benchmarks.txt \
+    ../build-SolarSystem-Desktop-Debug/positions.txt
+
