@@ -39,13 +39,13 @@ void SolarSystem::calculateForcesAndEnergy()
             m_potentialEnergy -= m_G*body1.mass*body2.mass/dr;
 
             //Calculate the force on both bodies
-            //body1.force -= (m_G*body1.mass*body2.mass)/(dr*dr*dr)*deltaRVector;
-            //body2.force += (m_G*body1.mass*body2.mass)/(dr*dr*dr)*deltaRVector;
+            body1.force -= (m_G*body1.mass*body2.mass)/(dr*dr*dr)*deltaRVector;
+            body2.force += (m_G*body1.mass*body2.mass)/(dr*dr*dr)*deltaRVector;
 
             //Calculate relativistic correction to force
-            double l = (deltaRVector.cross(deltaVvector)).length();
-            body1.force -= (m_G*body1.mass*body2.mass)/(dr*dr*dr)*(1 + 3*l*l/(dr*dr*m_c*m_c))*deltaRVector;
-            body2.force += (m_G*body1.mass*body2.mass)/(dr*dr*dr)*(1 + 3*l*l/(dr*dr*m_c*m_c))*deltaRVector;
+//            double l = (deltaRVector.cross(deltaVvector)).length();
+//            body1.force -= (m_G*body1.mass*body2.mass)/(dr*dr*dr)*(1 + 3*l*l/(dr*dr*m_c*m_c))*deltaRVector;
+//            body2.force += (m_G*body1.mass*body2.mass)/(dr*dr*dr)*(1 + 3*l*l/(dr*dr*m_c*m_c))*deltaRVector;
 
 
             //Calculate potential energy for each body
